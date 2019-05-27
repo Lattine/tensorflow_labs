@@ -1,7 +1,9 @@
 ### 基于Tensorflow的项目集
+- 数据和预训练模型地址[百度云](https://pan.baidu.com/s/1KmKw9nQlIj_l0O0d1nRFbg ) 
+- 提取码: twwp  
+- 对应项目名下包含各自的数据和模型
 ---
 
-- `work_01_basic_usage`:主要是一些`TensorFlow`的基础语法
-- `work_02_mnist`:手写数字识别，入门级的图像识别项目，采用单层神经网络、CNN网络、RNN网络分别实现
-- `work_03_nnlm`:`A Neural Probabilistic Language Model`复现
+### 项目列表
+- `bilstm_crf-word-segment`:基于BiLSTM-CRF的中文分词
 
