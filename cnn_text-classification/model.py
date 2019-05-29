@@ -38,7 +38,7 @@ class TextCNN(object):
             self.loss = tf.reduce_mean(cross_entropy)
             optimizer = tf.train.AdamOptimizer(learning_rate=self.pm.learning_rate)
             gradients, variables = zip(*optimizer.compute_gradients(self.loss))
-            gradients, _ = tf.clip_by_global_norm(gradients, pm.clip)
+            gradients, _ = tf.clip_by_global_norm(gradients, self.pm.clip)
             self.optim = optimizer.apply_gradients(zip(gradients, variables), global_step=self.global_step)
         
         with tf.name_scope('Accuracy'):
