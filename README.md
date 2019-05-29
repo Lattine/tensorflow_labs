@@ -5,5 +5,6 @@
 ---
 
 ### 项目列表
-- `bilstm_crf-word-segment`:基于BiLSTM-CRF的中文分词
+- `bilstm_crf-word-segment`:基于`BiLSTM-CRF`的中文分词
+- `cnn_text-classification`:基于`TextCNN`的搜狗新闻分类
 
