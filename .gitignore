@@ -2,5 +2,6 @@
 **/__pycache__
 **/.idea
 **/.vscode
+**/.ipynb_checkpoints
 **/venv
 **/migrations
