@@ -40,7 +40,6 @@ with g.as_default() as g:
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 # Training & Validation
-
 with tf.Session(graph=g) as sess:
     sess.run(tf.global_variables_initializer())
     for i in range(epoches):
