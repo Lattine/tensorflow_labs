@@ -5,7 +5,5 @@
 ---
 
 ### 项目列表
-- `basic-ml`:基于TensorFlow的分类demo
-- `bilstm_crf-word-segment`:基于`BiLSTM-CRF`的中文分词
-- `cnn_text-classification`:基于`TextCNN`的搜狗新闻分类
+- `Z01_mnist`:`MNIST`数据集的分类
 
