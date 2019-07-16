@@ -25,7 +25,7 @@ keep_prob_train = 0.5
 
 learning_rate = 1e-4
 epoches = 10
-batch_size = 16
+batch_size = 64
 
 
 # ------------------ Function Begin --------------------
@@ -72,13 +72,13 @@ with g.as_default() as g:
 
     # FC1 with activation, dropout
     h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 64])
-    W_fc1 = weight_variable([7 * 7 * 64, 512])
-    b_fc1 = bias_variable([512])
+    W_fc1 = weight_variable([7 * 7 * 64, 1024])
+    b_fc1 = bias_variable([1024])
     h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
     h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob=keep_prob)
 
     # FC2
-    W_fc2 = weight_variable([512, 10])
+    W_fc2 = weight_variable([1024, 10])
     b_fc2 = bias_variable([10])
     y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
 
@@ -103,3 +103,15 @@ with tf.Session(graph=g) as sess:
         acc_train = sess.run(accuracy, feed_dict={x: mnist.train.images, y_: mnist.train.labels, keep_prob: 1.0})
         acc_test = sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0})
         print(f"Epoch {i} :Train loss: {loss_train}, Test loss: {loss_test}, Train acc: {acc_train}, Test acc: {acc_test}")
+
+# ------------------------ Result --------------------------
+# Epoch 0 :Train loss: 0.09977313876152039, Test loss: 0.09497814625501633, Train acc: 0.9704727530479431, Test acc: 0.9695000052452087
+# Epoch 1 :Train loss: 0.05402466282248497, Test loss: 0.054240208119153976, Train acc: 0.9837818145751953, Test acc: 0.9822999835014343
+# Epoch 2 :Train loss: 0.03888505697250366, Test loss: 0.042723070830106735, Train acc: 0.9878363609313965, Test acc: 0.9854000210762024
+# Epoch 3 :Train loss: 0.027384402230381966, Test loss: 0.033973149955272675, Train acc: 0.9917272925376892, Test acc: 0.9879999756813049
+# Epoch 4 :Train loss: 0.022167138755321503, Test loss: 0.029579292982816696, Train acc: 0.9934545159339905, Test acc: 0.9883999824523926
+# Epoch 5 :Train loss: 0.017373420298099518, Test loss: 0.031052500009536743, Train acc: 0.9947636127471924, Test acc: 0.9887999892234802
+# Epoch 6 :Train loss: 0.018054625019431114, Test loss: 0.03300003707408905, Train acc: 0.9942181706428528, Test acc: 0.9890999794006348
+# Epoch 7 :Train loss: 0.011205444112420082, Test loss: 0.02524348720908165, Train acc: 0.9968545436859131, Test acc: 0.9914000034332275
+# Epoch 8 :Train loss: 0.0111664654687047, Test loss: 0.027720559388399124, Train acc: 0.9962000250816345, Test acc: 0.9901999831199646
+# Epoch 9 :Train loss: 0.00872449018061161, Test loss: 0.025138182565569878, Train acc: 0.9976727366447449, Test acc: 0.9919000267982483
