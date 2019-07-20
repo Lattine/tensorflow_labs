@@ -11,9 +11,9 @@ from datetime import datetime
 
 FLAGS = tf.app.flags.FLAGS
 tf.app.flags.DEFINE_string('train_dir', r'./data_cifar10/cifar10_train', 'Directory for train data and checkpoint.')
-tf.app.flags.DEFINE_integer('max_steps', 100, 'Number of batches to run.')
+tf.app.flags.DEFINE_integer('max_steps', 100000, 'Number of batches to run.')
 tf.app.flags.DEFINE_boolean('log_device_placement', False, 'Whether to log device placement.')
-tf.app.flags.DEFINE_integer('log_frequency', 10, "Log frequency.")
+tf.app.flags.DEFINE_integer('log_frequency', 100, "Log frequency.")
 
 
 def train():
