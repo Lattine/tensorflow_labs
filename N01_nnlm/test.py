@@ -40,7 +40,7 @@ def test(args):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data_dir", type=str, default=r'data_set', help=r'data directory')
+    parser.add_argument("--data_dir", type=str, default=r'dataset', help=r'data directory')
     parser.add_argument("--model_dir", type=str, default=r'ckpt', help=r'data directory')
     args = parser.parse_args()
     test(args)

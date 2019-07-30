@@ -11,7 +11,7 @@ import time
 import tensorflow as tf
 import numpy as np
 
-from dataset_input import DataLoader
+from data_input import DataLoader
 
 
 def train(args):
@@ -73,7 +73,7 @@ def train(args):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data_dir", type=str, default=r'data_set/', help=r'data set directory')
+    parser.add_argument("--data_dir", type=str, default=r'dataset/', help=r'data set directory')
     parser.add_argument("--batch_size", type=int, default=128, help=r'batch size')
     parser.add_argument("--win_size", type=int, default=5, help=r'context window size')
     parser.add_argument("--hidden_num", type=int, default=64, help=r'dim of hidden layers')

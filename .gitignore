@@ -1,9 +1,13 @@
 # 忽略的文件夹
-**/__pycache__
 **/.idea
 **/.vscode
 **/.ipynb_checkpoints
+
+**/__pycache__
+
 **/venv
+
 **/migrations
-**/data_*
+
+**/dataset
 **/ckpt
