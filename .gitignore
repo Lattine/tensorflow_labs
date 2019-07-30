@@ -6,3 +6,4 @@
 **/venv
 **/migrations
 **/data_*
+**/ckpt

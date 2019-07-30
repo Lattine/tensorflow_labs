@@ -4,6 +4,9 @@
 - 对应项目名下包含各自的数据和模型
 ---
 
-### 项目列表
+### 图像分类
 - `V01_mnist`:`MNIST`数据集的分类
+- `V02_cifar10`:`CIFAR10`数据集的分类
 
+### NLP基础
+- `N01_nnlm`:`Neural Network Language Model`的复现
