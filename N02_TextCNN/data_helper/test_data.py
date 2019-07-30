@@ -111,18 +111,19 @@ class TestData(TestDataBase):
 
         return np.array(inputs_idx), np.array(labels_idx)
 
-   def next_batch(self, x, y, batch_size):
-       """生成Batch数据"""
-       perm = np.arange(len(x))
-       np.random.shuffle(perm)
-       x = x[perm]
-       y = y[perm]
 
-       num_batches = len(x) // batch_size
-       for i in range(num_batches):
-           start =i*batch_size
-           end = start+batch_size
-           batch_x = np.array(x[start:end], dtype='int64')
-           batch_y = np.array(y[start:end], dtype='float32')
+def next_batch(self, x, y, batch_size):
+    """生成Batch数据"""
+    perm = np.arange(len(x))
+    np.random.shuffle(perm)
+    x = x[perm]
+    y = y[perm]
 
-           yield batch_x, batch_y
+    num_batches = len(x) // batch_size
+    for i in range(num_batches):
+        start = i * batch_size
+        end = start + batch_size
+        batch_x = np.array(x[start:end], dtype='int64')
+        batch_y = np.array(y[start:end], dtype='float32')
+
+        yield batch_x, batch_y
