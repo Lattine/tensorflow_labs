@@ -11,7 +11,7 @@ import time
 import tensorflow as tf
 import numpy as np
 
-from data_input import DataLoader
+from dataset_input import DataLoader
 
 
 def train(args):
