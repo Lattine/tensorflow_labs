@@ -16,9 +16,9 @@ class TestData(TestDataBase):
     def __init__(self, config):
         super(TestData, self).__init__(config)
 
-        self._test_data_path = os.path.join(os.path.abspath(os.path.dirname(os.getcwd())), config.test_data)
-        self._output_path = os.path.join(os.path.abspath(os.path.dirname(os.getcwd(), config.output_path)))
-        self._stopwords_path = os.path.join(os.path.abspath(os.path.dirname(os.getcwd())), config.stopwords) if config.stopwords else None
+        self._test_data_path = os.path.join(config.BASE_DIR, config.test_data)
+        self._output_path = os.path.join(config.BASE_DIR, config.output_path)
+        self._stopwords_path = os.path.join(config.BASE_DIR, config.stopwords) if config.stopwords else None
         self._sequence_length = config.sequence_length
 
     def read_data(self):
@@ -126,4 +126,4 @@ def next_batch(self, x, y, batch_size):
         batch_x = np.array(x[start:end], dtype='int64')
         batch_y = np.array(y[start:end], dtype='float32')
 
-        yield batch_x, batch_y
+        yield dict(x=batch_x, y=batch_y)

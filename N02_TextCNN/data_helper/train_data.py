@@ -18,17 +18,18 @@ class TrainData(TrainDataBase):
     def __init__(self, config):
         super(TrainData, self).__init__(config)
 
-        self._train_data_path = os.path.join(os.path.abspath(os.path.dirname(os.getcwd())), config.train_data)
-        self._output_path = os.path.join(os.path.abspath(os.path.dirname(os.getcwd())), config.output_path)
+        self._train_data_path = os.path.join(config.BASE_DIR, config.train_data)
+        self._output_path = os.path.join(config.BASE_DIR, config.output_path)
         if not os.path.exists(self._output_path):
             os.makedirs(self._output_path)
-        self._word_vectors_path = os.path.join(os.path.abspath(os.path.dirname(os.getcwd())), config.word_vectors_path) if config.word_vectors_path else None
-        self._stopwords_path = os.path.join(os.path.abspath(os.path.dirname(os.getcwd())), config.stopwords) if config.stopwords else None
+        self._word_vectors_path = os.path.join(config.BASE_DIR, config.word_vectors_path) if config.word_vectors_path else None
+        self._stopwords_path = os.path.join(config.BASE_DIR, config.stopwords) if config.stopwords else None
 
         self._sequence_length = config.sequence_length
         self._batch_size = config.batch_size
         self._embedding_size = config.embedding_size
-        self._vocab_size = config.vocab_size
+
+        self.vocab_size = config.vocab_size
         self.word_vectors = None
 
     def read_data(self):
@@ -55,7 +56,7 @@ class TrainData(TrainDataBase):
 
         # 去除低频词
         words = []
-        for k, v in word_counts.most_common(self._vocab_size - 4):  # 统计最常用的词，为词表大小减去<START>,<UNK>,<PAD>,<END>
+        for k, v in word_counts.most_common(self.vocab_size - 4):  # 统计最常用的词，为词表大小减去<START>,<UNK>,<PAD>,<END>
             words.append(k)
 
         # 如果设置停用词表，去除停用词
@@ -140,7 +141,7 @@ class TrainData(TrainDataBase):
 
     @staticmethod
     def trans_t2ix(labels, t2ix):
-        labels_idx = [[t2ix.get(label)] for label in labels]
+        labels_idx = [t2ix.get(label) for label in labels]
         return labels_idx
 
     def padding(self, inputs, sequence_length):
@@ -218,4 +219,4 @@ class TrainData(TrainDataBase):
             batch_x = np.array(x[start:end], dtype='int64')
             batch_y = np.array(y[start:end], dtype="float32")
 
-            yield batch_x, batch_y
+            yield dict(x=batch_x, y=batch_y)

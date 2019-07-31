@@ -4,3 +4,7 @@
 # @Author  : Lattine
 
 # ======================
+from .train_data import TrainData
+from .test_data import TestData
+
+__all__ = ['TrainData', 'TestData']

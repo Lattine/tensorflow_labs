@@ -4,3 +4,6 @@
 # @Author  : Lattine
 
 # ======================
+from .text_cnn import TextCNN
+
+__all__ = ['TextCNN']

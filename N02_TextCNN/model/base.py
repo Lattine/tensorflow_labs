@@ -12,7 +12,7 @@ class BaseModel:
         self.config = config
 
         self.inputs = tf.placeholder(tf.int32, [None, None], name='inputs')
-        self.labels = tf.placeholder(tf.int32, [None], name='labels')
+        self.labels = tf.placeholder(tf.float32, [None], name='labels')
         self.keep_prob = tf.placeholder(tf.float32, name='keep_prob')
 
         self.l2_loss = tf.constant(0.0)
@@ -83,6 +83,7 @@ class BaseModel:
         }
         _, summary, loss, predictions = sess.run([self.train_op, self.summary_op, self.loss, self.predictions], feed_dict=feed_dict)
         return summary, loss, predictions
+
     def eval(self, sess, batch):
         """验证模型"""
         feed_dict = {
