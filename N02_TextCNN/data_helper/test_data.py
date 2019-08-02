@@ -78,7 +78,7 @@ class TestData(TestDataBase):
             print(f"load existed eval data")
             with open(eval_data_path, 'rb') as fr:
                 eval_data = pickle.load(fr)
-            return np.array(eval_data['inputs_idx']), eval_data['labels_idx']
+            return np.array(eval_data['inputs_idx']), np.array(eval_data['labels_idx'])
 
         # --------- 原始处理流程 ----------
         # 1.读取原始数据
@@ -96,8 +96,9 @@ class TestData(TestDataBase):
         # 4.文本转索引
         inputs_idx = self.trans_w2ix(inputs, word_to_index)
         print('trans w2ix finished')
+
         # 5. 对序列做PADDING
-        inputs_idx = self.padding(inputs, self._sequence_length)
+        inputs_idx = self.padding(inputs_idx, self._sequence_length)
         print('inputs padding finished')
 
         # 6.标签转索引
@@ -111,19 +112,18 @@ class TestData(TestDataBase):
 
         return np.array(inputs_idx), np.array(labels_idx)
 
+    def next_batch(self, x, y, batch_size):
+        """生成Batch数据"""
+        perm = np.arange(len(x))
+        np.random.shuffle(perm)
+        x = x[perm]
+        y = y[perm]
 
-def next_batch(self, x, y, batch_size):
-    """生成Batch数据"""
-    perm = np.arange(len(x))
-    np.random.shuffle(perm)
-    x = x[perm]
-    y = y[perm]
+        num_batches = len(x) // batch_size
+        for i in range(num_batches):
+            start = i * batch_size
+            end = start + batch_size
+            batch_x = np.array(x[start:end], dtype='int64')
+            batch_y = np.array(y[start:end], dtype='float32')
 
-    num_batches = len(x) // batch_size
-    for i in range(num_batches):
-        start = i * batch_size
-        end = start + batch_size
-        batch_x = np.array(x[start:end], dtype='int64')
-        batch_y = np.array(y[start:end], dtype='float32')
-
-        yield dict(x=batch_x, y=batch_y)
+            yield dict(x=batch_x, y=batch_y)

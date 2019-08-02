@@ -13,11 +13,12 @@ class TextCNNConfig:
 
     # Dataset
     train_data = "data/imdb/train_data.txt"
+    eval_data = "data/imdb/eval_data.txt"
     test_data = "data/imdb/eval_data.txt"
     output_path = "data/outputs/imdb/text_cnn"
     word_vectors_path = None
     stopwords = "data/stopwords_en.txt"
-    sequence_length = 300  # 这个可以自己设置，根据不同的语料调整
+    sequence_length = 500  # 这个可以自己设置，根据不同的语料调整
     embedding_size = 200
     vocab_size = 10000
 
@@ -32,5 +33,6 @@ class TextCNNConfig:
     num_filters = 100
     filter_sizes = [3, 4, 5]
     l2_reg_lambda = 0.0
-    ckeckpoint_every = 100
-    ckpt_model_path = "ckpt/imdb/textcnn",
+    ckeckpoint_every = 1
+    ckpt_model_path = "ckpt/imdb/text_cnn"  # 模型保存路径
+    summary_path = "ckpt/logs"  # 训练日志

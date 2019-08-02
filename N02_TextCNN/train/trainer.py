@@ -13,7 +13,7 @@ import tensorflow as tf
 from config import TextCNNConfig
 from data_helper import TrainData
 from data_helper import TestData
-from metrics import get_binary_metrics, get_multi_metrics
+from metrics import get_binary_metrics, get_multi_metrics, list_mean
 from model import TextCNN
 
 
@@ -40,6 +40,7 @@ class Trainer:
     def load_data(self):
         """加载数据集"""
         self.train_data_loader = TrainData(self.config)
+        self.config.test_data = self.config.eval_data  # 使用验证集，进行训练过程中的测试
         self.eval_data_loader = TestData(self.config)
 
     def train(self):
@@ -50,11 +51,11 @@ class Trainer:
             current_step = 0
 
             # 创建Train/Eval的summar路径和写入对象
-            train_summary_path = os.path.join(os.path.abspath(os.path.dirname(os.getcwd())), self.config.output_path + "/summary/train")
+            train_summary_path = os.path.join(self.config.BASE_DIR, self.config.summary_path + "/train")
             if not os.path.exists(train_summary_path):
                 os.makedirs(train_summary_path)
             train_summary_writer = tf.summary.FileWriter(train_summary_path, sess.graph)
-            eval_summary_path = os.path.join(os.path.abspath(os.path.dirname(os.getcwd())), self.config.output_path + "/summary/eval")
+            eval_summary_path = os.path.join(self.config.BASE_DIR, self.config.summary_path + "/eval")
             if not os.path.exists(eval_summary_path):
                 os.makedirs(eval_summary_path)
             eval_summary_writer = tf.summary.FileWriter(eval_summary_path, sess.graph)
@@ -66,10 +67,10 @@ class Trainer:
                     summary, loss, predictions = self.model.train(sess, batch, self.config.keep_prob)
                     train_summary_writer.add_summary(summary)
                     if self.config.num_classes == 1:
-                        acc = get_binary_metrics(pred_y=predictions, true_y=batch['y'])
+                        acc = get_binary_metrics(pred_y=predictions.tolist(), true_y=batch['y'])
                         print("Train step: {}, acc: {:.3f}".format(current_step, acc))
                     elif self.config.num_classes > 1:
-                        acc = get_multi_metrics(pred_y=predictions, true_y=batch['y'])
+                        acc = get_multi_metrics(pred_y=predictions.tolist(), true_y=batch['y'])
                         print("Train step: {}, acc: {:.3f}".format(current_step, acc))
 
                     current_step += 1
@@ -82,13 +83,12 @@ class Trainer:
                             eval_summary_writer.add_summary(eval_summary)
                             eval_losses.append(eval_loss)
                             if self.config.num_classes == 1:
-                                acc = get_binary_metrics(pred_y=eval_predictions, true_y=batch['y'])
+                                acc = get_binary_metrics(pred_y=eval_predictions.tolist(), true_y=batch['y'])
                                 eval_accs.append(acc)
                             elif self.config.num_classes > 1:
-                                acc = get_multi_metrics(pred_y=eval_predictions, true_y=batch['y'])
+                                acc = get_multi_metrics(pred_y=eval_predictions.tolist(), true_y=batch['y'])
                                 eval_accs.append(acc)
-                        print("\n")
-                        print(f"Eval \tloss: {tf.reduce_mean(eval_losses)}, acc: {tf.reduce_mean(eval_accs)}")
+                        print(f"Eval \tloss: {list_mean(eval_losses)}, acc: {list_mean(eval_accs)}")
 
                         if self.config.ckpt_model_path:
                             save_path = os.path.join(self.config.BASE_DIR, self.config.ckpt_model_path)

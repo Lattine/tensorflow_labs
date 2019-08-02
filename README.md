@@ -9,4 +9,5 @@
 - `V02_cifar10`:`CIFAR10`数据集的分类
 
 ### NLP基础
-- `N01_nnlm`:`Neural Network Language Model`的复现
+- `N01_nnlm`:`A Neural Probabilistic Language Model`的复现
+- `N02_TextCNN`:`Convolutional Neural Networks for Sentence Classification`的复现
