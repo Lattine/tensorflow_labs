@@ -23,7 +23,7 @@ def train(args):
         input_data = tf.placeholder(tf.int64, [args.batch_size, args.win_size])
         targets = tf.placeholder(tf.int64, [args.batch_size, 1])
 
-        with tf.variable_scope('embedding'):
+        with tf.variable_scope('embedding'):  # 这里的embedding既是词向量查找矩阵
             embeddings = tf.Variable(tf.random_uniform([args.vocab_size, args.word_dim], -1.0, 1.0))
             embeddings = tf.nn.l2_normalize(embeddings, 1)
 
@@ -40,11 +40,11 @@ def train(args):
                 output = softmax(x*W + hidden*U + b2)
             """
             input_data_emb = tf.nn.embedding_lookup(embeddings, input_data)
-            input_data_emb = tf.reshape(input_data_emb, [-1, args.win_size * args.word_dim])
+            input_data_emb = tf.reshape(input_data_emb, [-1, args.win_size * args.word_dim])  # 将多个词向量，拉平成一个向量
             hidden = tf.tanh(tf.matmul(input_data_emb, weight_h)) + b_1
             hidden_output = tf.matmul(hidden, softmat_u) + tf.matmul(input_data_emb, softmat_w) + b_2
             output = tf.nn.softmax(hidden_output)
-            return output
+            return output  # 输出为归一化的概率值
 
         outputs = infer_output(input_data)
         one_hot_targets = tf.one_hot(tf.squeeze(targets), args.vocab_size, 1.0, 0.0)
