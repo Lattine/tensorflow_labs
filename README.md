@@ -6,7 +6,7 @@
 
 
 ### NLP基础
-- `N01_nnlm`:语言模型的复现[A Neural Probabilistic Language Model](http://www.jmlr.org/papers/v3/bengio03a.html)
+- `N01_nnlm`:语言模型的复现[论文：A Neural Probabilistic Language Model](http://www.jmlr.org/papers/v3/bengio03a.html)
 
 ### 文本分类
 - `N02_TextCNN`: 基于TextCNN的文本分类[论文：Convolutional Neural Networks for Sentence Classification](https://arxiv.org/abs/1408.5882)
