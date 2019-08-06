@@ -4,10 +4,10 @@
 - 对应项目名下包含各自的数据和模型
 ---
 
-### 图像分类
-- `V01_mnist`:`MNIST`数据集的分类
-- `V02_cifar10`:`CIFAR10`数据集的分类
 
 ### NLP基础
-- `N01_nnlm`:`A Neural Probabilistic Language Model`的复现
-- `N02_TextCNN`:`Convolutional Neural Networks for Sentence Classification`的复现
+- `N01_nnlm`:语言模型的复现[A Neural Probabilistic Language Model](http://www.jmlr.org/papers/v3/bengio03a.html)
+
+### 文本分类
+- `N02_TextCNN`: 基于TextCNN的文本分类[论文：Convolutional Neural Networks for Sentence Classification](https://arxiv.org/abs/1408.5882)
+- `N03_N03_BiLSTM`:基于BiLSTM实现文本类
