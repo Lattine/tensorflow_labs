@@ -6,7 +6,7 @@
 # ======================
 import os
 import tensorflow as tf
-from config import BiLSTMConfig
+from config import Config
 from data_helper import TrainData, TestData
 from model import BiLSTM
 
@@ -76,7 +76,7 @@ class Trainer:
 
 
 if __name__ == '__main__':
-    config = BiLSTMConfig()
+    config = Config()
 
     # 训练器
     trainer = Trainer(config)

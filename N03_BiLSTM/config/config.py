@@ -20,7 +20,6 @@ class BiLSTMConfig:
     word_vectors_path = "data/w2v_en.bin"
     vocab_size = 10000
     sequence_length = 200
-    eval_every = 100
 
     # Model
     num_classes = 2  # 几分类
@@ -35,5 +34,6 @@ class BiLSTMConfig:
     # Train
     epochs = 100
     batch_size = 128
+    eval_every = 100
     ckpt_model_path = "ckpt/imdb/" + model_name  # 模型保存路径
     summary_path = "ckpt/logs"  # 训练日志

@@ -200,10 +200,10 @@ class TestData(DataBase):
 
 
 if __name__ == '__main__':
-    from config import BiLSTMConfig
+    from config import Config
 
-    cfg = BiLSTMConfig()
+    cfg = Config()
     dataloader = TrainData(cfg)
-    inputs, labels, t2ix = dataloader.gen_train_data(os.path.join(cfg.BASE_DIR, cfg.train_data))
+    inputs, labels, t2ix = dataloader.gen_train_data(os.path.join(cfg.BASE_DIR, cfg.train_data_path))
     for d in dataloader.next_batch(inputs, labels, 32):
         print(d)

@@ -4,6 +4,6 @@
 # @Author  : Lattine
 
 # ======================
-from .config import BiLSTMConfig
+from .config import BiLSTMConfig as Config
 
-__all__ = ['BiLSTMConfig']
+__all__ = ['Config']

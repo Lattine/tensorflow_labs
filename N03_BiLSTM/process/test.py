@@ -6,10 +6,10 @@
 # ======================
 import os
 
-from config import BiLSTMConfig
+from config import Config
 from process import Predictor
 
-config = BiLSTMConfig()
+config = Config()
 
 with open(os.path.join(config.BASE_DIR, config.eval_data_path), 'r', encoding="utf8") as fr:
     inputs = []
