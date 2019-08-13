@@ -20,11 +20,13 @@ class AttBiLSTM(BaseModel):
         self.init_saver()
 
     def build_graph(self):
+        # ----- 词向量层 -----
         with tf.name_scope("embedding"):
+            # 加载已有的词向量，或者随机初始化词向量
             if self.word_vectors is not None:
                 embeddings_w = tf.Variable(tf.cast(self.word_vectors, dtype=tf.float32, name="word2vec"), name="embeddings_w")  # 以预训练的词向量初始化
             else:
-                embeddings_w = tf.get_variable("embeddings_w", shape=[self.vocab_size, self.config.embedding_dim], initializer=tf.contrib.layers.xavier_initializer())
+                embeddings_w = tf.get_variable("embedding/embeddings_w", shape=[self.vocab_size, self.config.embedding_dim], initializer=tf.contrib.layers.xavier_initializer())
             lstm_inputs = tf.nn.embedding_lookup(embeddings_w, self.inputs)
 
         # BiLSTM层，深度由len(hidden_sizes)控制
@@ -56,6 +58,7 @@ class AttBiLSTM(BaseModel):
             output_w = tf.get_variable("output_w", shape=[output_size, self.config.num_classes], initializer=tf.contrib.layers.xavier_initializer())
             output_b = tf.Variable(tf.constant(0.1, shape=[self.config.num_classes]), name="output_b")
             self.l2_loss += tf.nn.l2_loss(output_w)
+            print(attention_output.shape, output_w.shape, output_b.shape)
             self.logits = tf.nn.xw_plus_b(attention_output, output_w, output_b, name="logits")
             self.predictions = self.get_predictions()
 
@@ -77,21 +80,37 @@ class AttBiLSTM(BaseModel):
         return acc
 
     def _attention(self, H):
-        """ 利用Attention机制得到句子的词向量表示"""
-        hidden_size = self.config.hidden_sizes[-1]  # 获取最后一层LSTM神经元个数
-        W = tf.Variable(tf.random_normal([hidden_size], stddev=0.1))  # 初始化一个权重向量， 是可以被训练的参数
-        M = tf.tanh(H)  # 对BiLSTM的输出，用激活函数做非线性转换
-        # 对W和M做矩阵运算， M=[batch_size, time_step, hidden_size]，计算前：维度转换为[batch_size * time_step, hidden_size]
-        # newM = [batch_size, time_step, 1], 每一个时间步的输出用向量转换成一个数字
+        """
+        利用Attention机制得到句子的向量表示
+        """
+        # 获得最后一层LSTM的神经元数量
+        hidden_size = self.config.hidden_sizes[-1]
+
+        # 初始化一个权重向量，是可训练的参数
+        W = tf.Variable(tf.random_normal([hidden_size], stddev=0.1))
+
+        # 对Bi-LSTM的输出用激活函数做非线性转换
+        M = tf.tanh(H)
+
+        # 对W和M做矩阵运算，M=[batch_size, time_step, hidden_size]，计算前做维度转换成[batch_size * time_step, hidden_size]
+        # newM = [batch_size, time_step, 1]，每一个时间步的输出由向量转换成一个数字
         newM = tf.matmul(tf.reshape(M, [-1, hidden_size]), tf.reshape(W, [-1, 1]))
 
-        restoreM = tf.reshape(newM, [-1, self.config.sequence_length])  # newM转换为[batch_size, time_step]
+        # 对newM做维度转换成[batch_size, time_step]
+        restoreM = tf.reshape(newM, [-1, self.config.sequence_length])
 
-        self.alpha = tf.nn.softmax(restoreM)  # 用softmax做归一化处理[batch_size, time_step]
+        # 用softmax做归一化处理[batch_size, time_step]
+        self.alpha = tf.nn.softmax(restoreM)
 
-        r = tf.matmul(tf.transpose(H, [0, 2, 1]), tf.reshape(self.alpha, [-1, self.config.sequence_length, 1]))  # 利用alpha的值对H进行加权求和，用矩阵运算直接操作
-        sequeezeR = tf.squeeze(r)  # 将三维压缩成二维[batch_size, hidden_size]
+        # 利用求得的alpha的值对H进行加权求和，用矩阵运算直接操作
+        r = tf.matmul(tf.transpose(H, [0, 2, 1]), tf.reshape(self.alpha, [-1, self.config.sequence_length, 1]))
+
+        # 将三维压缩成二维sequeezeR=[batch_size, hidden_size]
+        sequeezeR = tf.squeeze(r)
+
         sentenceRepren = tf.tanh(sequeezeR)
 
-        output = tf.nn.dropout(sentenceRepren, self.keep_prob)  # 对Attention的输出做dropout处理
+        # 对Attention的输出可以做dropout处理
+        output = tf.nn.dropout(sentenceRepren, self.keep_prob)
+
         return output

@@ -7,6 +7,7 @@
 import os
 import pickle
 
+import numpy as np
 import tensorflow as tf
 from model import Model
 
@@ -48,6 +49,7 @@ class Predictor:
 
     def predict(self, sentence):
         sentence_idx = self.sentence_to_ids(sentence)
+        sentence_idx = np.array(sentence_idx, dtype='int64')
         prediction = self.model.predict(self.sess, sentence_idx).tolist()
         label = self.ix2t[prediction[0]]
         return label

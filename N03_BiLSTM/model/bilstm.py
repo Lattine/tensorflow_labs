@@ -24,9 +24,9 @@ class BiLSTM(BaseModel):
         # 词嵌入层
         with tf.name_scope("embedding"):
             if self.embeddings_vectors is not None:
-                embeddings_w2v = tf.Variable(tf.cast(self.embeddings_vectors, dtype=tf.float32, name='word2vec'), name='embeddings_vectors')
+                embeddings_w2v = tf.Variable(tf.cast(self.embeddings_vectors, dtype=tf.float32, name='word2vec'), name='embeddings_w')
             else:
-                embeddings_w2v = tf.get_variable("embeddings_vectors", shape=[self.vocab_size, self.config.embedding_dim], initializer=tf.contrib.layers.xavier_initializer())
+                embeddings_w2v = tf.get_variable("embedding/embeddings_w", shape=[self.vocab_size, self.config.embedding_dim], initializer=tf.contrib.layers.xavier_initializer())
             embedded_inputs = tf.nn.embedding_lookup(embeddings_w2v, self.inputs)
 
         # 定义两层双向LSTM的模型结构

@@ -11,3 +11,4 @@
 ### 文本分类
 - `N02_TextCNN`: 基于TextCNN的文本分类[论文：Convolutional Neural Networks for Sentence Classification](https://arxiv.org/abs/1408.5882)
 - `N03_N03_BiLSTM`:基于BiLSTM实现文本类
+- `N04_Att_BiLSTM`:基于BiLSTM和Attention实现文本类[论文：Attention-Based Bidirectional Long Short-Term Memory Networks for Relation Classification](https://www.aclweb.org/anthology/P16-2034)

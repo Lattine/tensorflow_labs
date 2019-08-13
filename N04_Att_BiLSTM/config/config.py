@@ -18,7 +18,7 @@ class AttBiLSTMConfig:
     train_data_path = "data/imdb/train_data.txt"
     eval_data_path = "data/imdb/eval_data.txt"
     test_data_path = "data/imdb/eval_data.txt"
-    output_path = "data/outputs/imdb/" + model_name
+    output_path = "data/outputs/imdb/att_bilstm"
     stopwords_path = "data/stopwords_en.txt"
     word_vectors_path = "data/w2v_en.bin"
     vocab_size = 10000
@@ -33,8 +33,8 @@ class AttBiLSTMConfig:
     clip_grad = 5.0
     keep_prob = 0.5
 
-    epochs = 100
+    epochs = 10
     batch_size = 128
     eval_every = 100
-    ckpt_model_path = "ckpt/imdb/" + model_name  # 模型保存路径
+    ckpt_model_path = "ckpt/imdb/att_bilstm"  # 模型保存路径
     summary_path = "ckpt/logs"  # 训练日志
