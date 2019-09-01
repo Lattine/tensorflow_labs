@@ -22,4 +22,20 @@ class RCNNConfig:
     output_path = "data/outputs/imdb/" + model_name
     vocab_size = 10000
     sequence_length = 200
-    embedding_size = 200
+    embedding_dim = 200
+
+    # Model
+    model_output_size = 128
+    hidden_sizes = [128]
+    optimization = 'adam'
+    l2_reg_lambda = 0.0
+    learning_rate = 1e-3
+    clip_grad = 5.0
+    keep_prob = 0.5
+
+    # Train
+    epochs = 10
+    batch_size = 128
+    eval_every = 100
+    ckpt_model_path = "ckpt/imdb/att_bilstm"  # 模型保存路径
+    summary_path = "ckpt/logs"  # 训练日志

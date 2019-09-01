@@ -30,7 +30,7 @@ class DataBase:
         self._word_vectors_path = os.path.join(config.BASE_DIR, config.word_vectors_path) if config.word_vectors_path else None
 
         self._sequence_length = config.sequence_length
-        self._embedding_size = config.embedding_size
+        self._embedding_dim = config.embedding_dim
         self.vocab_size = config.vocab_size
         self.word_vectors = None
 
@@ -120,7 +120,7 @@ class DataBase:
             yield dict(x=xs, y=ys)
 
     def get_word_vectors(self, vocab):
-        word_vectors = (1 / np.sqrt(len(vocab)) * (2 * np.random.rand(len(vocab), self._embedding_size) - 1))
+        word_vectors = (1 / np.sqrt(len(vocab)) * (2 * np.random.rand(len(vocab), self._embedding_dim) - 1))
         if os.path.splitext(self._word_vectors_path)[-1] == ".bin":
             word_vec = gensim.models.KeyedVectors.load_word2vec_format(self._word_vectors_path, binary=True)
         else:
